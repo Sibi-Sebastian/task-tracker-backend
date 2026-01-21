@@ -6,6 +6,8 @@ GRANT ALL PRIVILEGES ON DATABASE task_tracker_db TO task_user;
 
 ALTER DATABASE task_tracker_db OWNER TO task_user;
 
+ALTER USER task_user CREATEDB; (db connections issue by prisma)
+
 npm init -y
 
 npm install prisma --save-dev
@@ -37,3 +39,64 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default prisma;
+
+npm install --save-dev @types/node
+
+prisma schema:
+
+// ENUMS
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+// MODELS
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  role          UserRole       @default(USER)
+  tasks         Task[]
+  refreshTokens RefreshToken[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  title       String
+  description String?
+  status      TaskStatus @default(TODO)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+npm install --save-dev @types/node
+
+### Why this is the right solution
+
+* Adds Node.js type definitions
+* Fixes `process`, `__dirname`, etc.
+* Required because Prisma uses TS internally
+
+npx prisma migrate dev --name init (run prisma)
+
+
