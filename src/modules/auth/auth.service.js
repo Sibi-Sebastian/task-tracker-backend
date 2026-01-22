@@ -60,3 +60,26 @@ exports.login = async ({ email, password }) => {
     refreshToken,
   };
 };
+
+
+exports.refreshToken = async (token) => {
+  const storedToken = await authRepository.findRefreshToken(token);
+
+  if (!storedToken || storedToken.expiresAt < new Date()) {
+    const err = new Error("Invalid refresh token");
+    err.statusCode = 401;
+    throw err;
+  }
+
+  const payload = jwt.verify(token, REFRESH_TOKEN_SECRET);
+
+  return jwt.sign(
+    { userId: payload.userId },
+    ACCESS_TOKEN_SECRET,
+    { expiresIn: "15m" }
+  );
+};
+
+exports.logout = async (token) => {
+  await authRepository.deleteRefreshToken(token);
+};

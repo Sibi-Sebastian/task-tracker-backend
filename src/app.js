@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./modules/auth/auth.routes");
+const taskRoutes = require("./modules/tasks/task.routes");
+const adminRoutes = require("./modules/admin/admin.routes");
 const { authenticate } = require("./middleware/auth.middleware");
 const { requireRole } = require("./middleware/role.middleware");
 const { errorHandler } = require("./middleware/error.middleware");
@@ -41,6 +43,10 @@ app.get("/protected", authenticate, (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/admin", adminRoutes);
+
+// global error handler
 app.use(errorHandler);
 
 module.exports = app;

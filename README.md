@@ -127,3 +127,6 @@ npx prisma generate
 
 npm install pg
 npm install @prisma/adapter-pg
+
+
+email: test@test.com, admin@test.com password: 123456

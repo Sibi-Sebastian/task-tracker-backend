@@ -12,3 +12,13 @@ exports.createUser = (data) => {
 exports.saveRefreshToken = (data) => {
   return prisma.refreshToken.create({ data });
 };
+
+exports.findRefreshToken = (token) => {
+  return prisma.refreshToken.findUnique({
+    where: { token },
+  });
+};
+
+exports.deleteRefreshToken = (token) => {
+  return prisma.refreshToken.delete({ where: { token } });
+};
