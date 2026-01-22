@@ -34,11 +34,14 @@ mkdir src/utils
 touch src/database/prisma.js
 
 // src/database/prisma.js
-import { PrismaClient } from "@prisma/client";
+
+
+// src/database/prisma.js
+const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-export default prisma;
+module.exports = prisma;
 
 npm install --save-dev @types/node
 
@@ -99,4 +102,28 @@ npm install --save-dev @types/node
 
 npx prisma migrate dev --name init (run prisma)
 
+npm install express cors cookie-parser
 
+npm install bcryptjs jsonwebtoken
+
+### Register
+
+<pre class="overflow-visible! px-0!" data-start="1378" data-end="1434"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(--spacing(9)+var(--header-height))] @w-xl/main:top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>POST /auth/register
+→ </span><span>hash</span><span> password
+→ store user
+</span></span></code></div></div></pre>
+
+### Login
+
+<pre class="overflow-visible! px-0!" data-start="1446" data-end="1538"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(--spacing(9)+var(--header-height))] @w-xl/main:top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>POST /auth/</span><span>login</span><span>
+→ verify </span><span>password</span><span>
+→ issue tokens
+→ store </span><span>refresh</span><span> token
+→ </span><span>set</span><span> cookie</span></span></code></div></div></pre>
+
+
+npx prisma generate
+
+
+npm install pg
+npm install @prisma/adapter-pg
